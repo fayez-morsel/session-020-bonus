@@ -463,5 +463,64 @@
         generateOptions();
       }
     }
+
+    // Generate color options based on difficulty
+    function generateOptions() {
+      optionsContainer.innerHTML = "";
+
+      const colorNames = Object.keys(colors);
+      const targetColor =
+        colorNames[Math.floor(Math.random() * colorNames.length)];
+      colorDisplay.textContent = targetColor;
+
+      let numOptions;
+      switch (difficulty) {
+        case "easy":
+          numOptions = 4;
+          break;
+        case "medium":
+          numOptions = 6;
+          break;
+        case "hard":
+          numOptions = 9;
+          break;
+      }
+
+      // Create an array with the target color and random colors
+      let options = [targetColor];
+
+      // For higher levels, add similar colors to increase difficulty
+      if (level > 3 && similarColors[targetColor]) {
+        const similar = similarColors[targetColor];
+        options.push(...similar.slice(0, Math.min(level - 3, similar.length)));
+      }
+
+      // Fill the rest with random colors
+      while (options.length < numOptions) {
+        const randomColor =
+          colorNames[Math.floor(Math.random() * colorNames.length)];
+        if (!options.includes(randomColor)) {
+          options.push(randomColor);
+        }
+      }
+
+
+      options = shuffleArray(options);
+
+      // Create the color option elements
+      options.forEach((color) => {
+        const option = document.createElement("div");
+        option.className = "color-option fade-in";
+        option.style.backgroundColor = colors[color] || color;
+        option.dataset.color = color;
+        option.addEventListener("click", checkAnswer);
+        optionsContainer.appendChild(option);
+
+        
+        setTimeout(() => {
+          option.classList.remove("fade-in");
+        }, 500);
+      });
+    }
   </script>
 </html>
