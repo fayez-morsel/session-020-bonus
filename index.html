@@ -389,5 +389,51 @@
       BLUE: ["#2196F3", "#1E88E5", "#1976D2"],
       YELLOW: ["#FFEB3B", "#FFEE58", "#FDD835"],
     };
+
+    // DOM elements
+    const colorDisplay = document.getElementById("colorDisplay");
+    const optionsContainer = document.getElementById("optionsContainer");
+    const scoreElement = document.getElementById("score");
+    const timerElement = document.getElementById("timer");
+    const levelElement = document.getElementById("level");
+    const messageElement = document.getElementById("message");
+    const newGameButton = document.getElementById("newGame");
+    const difficultyButton = document.getElementById("difficulty");
+    const progressBar = document.getElementById("progress");
+    const comboCounter = document.getElementById("comboCounter");
+    const gameOverScreen = document.getElementById("gameOver");
+    const finalScoreElement = document.getElementById("finalScore");
+    const restartButton = document.getElementById("restartButton");
+
+    // Initialize game
+    function initGame() {
+      clearInterval(timer);
+      score = 0;
+      timeLeft = 60;
+      level = 1;
+      combo = 0;
+      gameActive = true;
+
+      scoreElement.textContent = score;
+      timerElement.textContent = timeLeft;
+      levelElement.textContent = level;
+      messageElement.textContent = "";
+      messageElement.className = "message";
+      comboCounter.className = "combo-counter";
+      progressBar.style.width = "0%";
+      gameOverScreen.classList.remove("visible");
+
+      generateOptions();
+      startTimer();
+
+      // Animate elements
+      const elements = document.querySelectorAll(
+        ".color-option, .color-display, .info-box"
+      );
+      elements.forEach((el) => {
+        el.classList.add("fade-in");
+        setTimeout(() => el.classList.remove("fade-in"), 500);
+      });
+    }
   </script>
 </html>
