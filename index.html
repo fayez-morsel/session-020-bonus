@@ -365,5 +365,29 @@
     let timer;
     let gameActive = false;
     let difficulty = "medium";
+
+    // Extended color options
+    const colors = {
+      RED: "#FF5252",
+      GREEN: "#4CAF50",
+      BLUE: "#2196F3",
+      YELLOW: "#FFEB3B",
+      PURPLE: "#9C27B0",
+      ORANGE: "#FF9800",
+      PINK: "#E91E63",
+      BROWN: "#795548",
+      CYAN: "#00BCD4",
+      MAGENTA: "#E91E63",
+      LIME: "#CDDC39",
+      TEAL: "#009688",
+    };
+
+    // Similar colors for higher difficulty
+    const similarColors = {
+      RED: ["#FF5252", "#FF1744", "#D50000"],
+      GREEN: ["#4CAF50", "#66BB6A", "#43A047"],
+      BLUE: ["#2196F3", "#1E88E5", "#1976D2"],
+      YELLOW: ["#FFEB3B", "#FFEE58", "#FDD835"],
+    };
   </script>
 </html>
