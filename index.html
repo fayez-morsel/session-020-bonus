@@ -435,5 +435,33 @@
         setTimeout(() => el.classList.remove("fade-in"), 500);
       });
     }
+
+    // Start the timer
+    function startTimer() {
+      timer = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft;
+        progressBar.style.width = `${((60 - timeLeft) / 60) * 100}%`;
+
+        if (timeLeft <= 0) {
+          endGame();
+        }
+
+        adjustDifficulty();
+      }, 1000);
+    }
+
+    // Adjust difficulty based on score
+    function adjustDifficulty() {
+      let newLevel = Math.floor(score / 10) + 1;
+      if (newLevel !== level) {
+        level = newLevel;
+        levelElement.textContent = level;
+        messageElement.textContent = `Level ${level}!`;
+        messageElement.className = "message correct";
+
+        generateOptions();
+      }
+    }
   </script>
 </html>
