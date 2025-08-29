@@ -504,7 +504,6 @@
         }
       }
 
-
       options = shuffleArray(options);
 
       // Create the color option elements
@@ -516,11 +515,100 @@
         option.addEventListener("click", checkAnswer);
         optionsContainer.appendChild(option);
 
-        
         setTimeout(() => {
           option.classList.remove("fade-in");
         }, 500);
       });
     }
+
+    // Check if the selected color is correct
+    function checkAnswer(e) {
+      if (!gameActive) return;
+
+      const selectedColor = e.target.dataset.color;
+      const targetColor = colorDisplay.textContent;
+
+      if (selectedColor === targetColor) {
+        handleCorrectAnswer();
+      } else {
+        handleIncorrectAnswer(e.target);
+      }
+    }
+
+    function handleCorrectAnswer() {
+      combo++;
+      score += combo; 
+
+      if (combo > 1) {
+        comboCounter.textContent = `Combo x${combo}!`;
+        comboCounter.className = "combo-counter combo-active";
+      }
+
+      scoreElement.textContent = score;
+      messageElement.textContent = "Correct!";
+      messageElement.className = "message correct";
+
+      if (level > 2) {
+        timeLeft += 2;
+        timerElement.textContent = timeLeft;
+      }
+
+      setTimeout(generateOptions, 800);
+    }
+
+    // Handle incorrect answer
+    function handleIncorrectAnswer(element) {
+      combo = 0;
+      comboCounter.className = "combo-counter";
+      messageElement.textContent = "Try Again!";
+      messageElement.className = "message incorrect";
+      element.style.opacity = "0.5";
+      element.style.pointerEvents = "none";
+
+      if (level > 4) {
+        timeLeft = Math.max(0, timeLeft - 2);
+        timerElement.textContent = timeLeft;
+      }
+    }
+    function endGame() {
+      clearInterval(timer);
+      gameActive = false;
+      finalScoreElement.textContent = score;
+      gameOverScreen.classList.add("visible");
+    }
+
+    // Change difficulty
+    function changeDifficulty() {
+      const difficulties = ["easy", "medium", "hard"];
+      const currentIndex = difficulties.indexOf(difficulty);
+      difficulty = difficulties[(currentIndex + 1) % difficulties.length];
+      difficultyButton.textContent = `Difficulty: ${
+        difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+      }`;
+
+      if (gameActive) {
+        generateOptions();
+      }
+    }
+
+    // Utility function to shuffle an array
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Event listeners
+    newGameButton.addEventListener("click", initGame);
+    difficultyButton.addEventListener("click", changeDifficulty);
+    restartButton.addEventListener("click", initGame);
+
+    difficultyButton.textContent = `Difficulty: ${
+      difficulty.charAt(0).toUpperCase() + difficulty.slice(1)
+    }`;
+
+    initGame();
   </script>
 </html>
